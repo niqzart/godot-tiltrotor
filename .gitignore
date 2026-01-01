@@ -1,0 +1,6 @@
+.idea/
+.godot/
+/addons/
+/android/
+/export/
+*.translation
