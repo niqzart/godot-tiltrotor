@@ -1,4 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bujeg7y8j3lvf"]
+[gd_scene load_steps=7 format=3 uid="uid://bujeg7y8j3lvf"]
+
+[ext_resource type="Script" uid="uid://1phqxfh237gl" path="res://scenes/tiltrotor/tiltrotor.gd" id="1_ry1n4"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pk5h2"]
 size = Vector3(4, 1, 6)
@@ -18,6 +20,9 @@ material = SubResource("StandardMaterial3D_hujxm")
 size = Vector3(4, 0.5, 6)
 
 [node name="Tiltrotor" type="RigidBody3D"]
+linear_damp = 1.0
+angular_damp = 1.0
+script = ExtResource("1_ry1n4")
 
 [node name="Collidor" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_pk5h2")
