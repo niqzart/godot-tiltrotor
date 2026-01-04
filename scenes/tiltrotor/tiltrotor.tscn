@@ -20,6 +20,8 @@ material = SubResource("StandardMaterial3D_hujxm")
 size = Vector3(4, 0.5, 6)
 
 [node name="Tiltrotor" type="RigidBody3D"]
+linear_damp = 1.0
+angular_damp = 1.0
 script = ExtResource("1_ry1n4")
 
 [node name="Collidor" type="CollisionShape3D" parent="."]
