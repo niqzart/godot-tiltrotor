@@ -102,13 +102,6 @@ func _apply_forces_from_inputs_complex_v1() -> void:
     self.apply_force(left_force, left_position)
 
 
-const DEFAULT_ROTOR_POWER: float = 5
-
-const MAX_ROTOR_TILT_ANGLE: float = PI / 4
-const ROTOR_TILT_SNAP_THRESHOLD: float = 0.05
-const ROTOR_TILT_SPEED: float = 0.8
-
-
 func _apply_forces_from_inputs_complex_v2() -> void:
     if Input.is_action_pressed("right_rotor_collective_forwards"):
         $RightRotor.set_desired_direction($RightRotor.RotorDirection.FORWARDS)
@@ -124,30 +117,25 @@ func _apply_forces_from_inputs_complex_v2() -> void:
     else:
         $LeftRotor.set_desired_direction($LeftRotor.RotorDirection.CENTERED)
 
-    var right_rotor_tilt: float = $RightRotor.rotation.x / self.MAX_ROTOR_TILT_ANGLE
-    var left_rotor_tilt: float = $LeftRotor.rotation.x / self.MAX_ROTOR_TILT_ANGLE
-
-    var right_max_power_factor: float = 1.2 + (1 - abs(right_rotor_tilt)) * 0.8
-    var left_max_power_factor: float = 1.2 + (1 - abs(left_rotor_tilt)) * 0.8
-
-    var right_power: float = self.DEFAULT_ROTOR_POWER
-    var left_power: float = self.DEFAULT_ROTOR_POWER
-
     if Input.is_action_pressed("right_rotor_collective_up"):
-        right_power *= right_max_power_factor
+        $RightRotor.set_power_mode($RightRotor.PoverMode.BOOSTED)
     elif Input.is_action_pressed("right_rotor_collective_down"):
-        right_power *= -right_max_power_factor
+        $RightRotor.set_power_mode($RightRotor.PoverMode.REVERSE)
+    else:
+        $RightRotor.set_power_mode($RightRotor.PoverMode.HOVER)
 
     if Input.is_action_pressed("left_rotor_collective_up"):
-        left_power *= left_max_power_factor
+        $LeftRotor.set_power_mode($LeftRotor.PoverMode.BOOSTED)
     elif Input.is_action_pressed("left_rotor_collective_down"):
-        left_power *= -left_max_power_factor
+        $LeftRotor.set_power_mode($LeftRotor.PoverMode.REVERSE)
+    else:
+        $LeftRotor.set_power_mode($LeftRotor.PoverMode.HOVER)
 
     var right_force_direction: Vector3 = (
-        self.transform.basis.y + self.transform.basis.z * right_rotor_tilt
+        self.transform.basis.y + self.transform.basis.z * $RightRotor.tilt
     )
     var left_force_direction: Vector3 = (
-        self.transform.basis.y + self.transform.basis.z * left_rotor_tilt
+        self.transform.basis.y + self.transform.basis.z * $LeftRotor.tilt
     )
 
     var right_position: Vector3 = self.transform.basis.x * 2
@@ -162,6 +150,9 @@ func _apply_forces_from_inputs_complex_v2() -> void:
         left_position += self.transform.basis.z
     elif Input.is_action_pressed("left_rotor_cyclic_backwards"):
         left_position -= self.transform.basis.z
+
+    var right_power: float = $RightRotor.get_current_vertical_power()
+    var left_power: float = $LeftRotor.get_current_vertical_power()
 
     self.apply_force(right_force_direction * right_power, right_position)
     self.apply_force(left_force_direction * left_power, left_position)
