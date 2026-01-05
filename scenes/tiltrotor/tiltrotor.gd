@@ -32,7 +32,17 @@ class PIDController:
 var x_angle_pid = PIDController.new()
 var z_angle_pid = PIDController.new()
 
-var pid_enabled = true
+var pid_enabled = false
+
+
+func _update_rotor_color() -> void:
+    $RightRotor/Mesh.mesh.material.albedo_color = (
+        Color("#ff5e61") if self.pid_enabled else Color("#c15dff")
+    )
+
+
+func _ready() -> void:
+    self._update_rotor_color()
 
 
 func _process(_delta: float) -> void:
@@ -41,9 +51,12 @@ func _process(_delta: float) -> void:
         if self.pid_enabled:
             self.x_angle_pid.reset()
             self.z_angle_pid.reset()
+        self._update_rotor_color()
 
 
 func _physics_process(delta: float) -> void:
+    print(self.global_position, self.global_rotation)
+
     var right_position: Vector3 = self.transform.basis.x * 2
     var left_position: Vector3 = self.transform.basis.x * -2
 
