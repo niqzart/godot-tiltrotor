@@ -109,42 +109,20 @@ const ROTOR_TILT_SNAP_THRESHOLD: float = 0.05
 const ROTOR_TILT_SPEED: float = 0.8
 
 
-func _apply_forces_from_inputs_complex_v2(delta: float) -> void:
+func _apply_forces_from_inputs_complex_v2() -> void:
     if Input.is_action_pressed("right_rotor_collective_forwards"):
-        if $RightRotor.rotation.x > -self.MAX_ROTOR_TILT_ANGLE:
-            $RightRotor.rotation.x -= self.ROTOR_TILT_SPEED * delta
-        if $RightRotor.rotation.x < -self.MAX_ROTOR_TILT_ANGLE:
-            $RightRotor.rotation.x = -self.MAX_ROTOR_TILT_ANGLE
+        $RightRotor.set_desired_direction($RightRotor.RotorDirection.FORWARDS)
     elif Input.is_action_pressed("right_rotor_collective_backwards"):
-        if $RightRotor.rotation.x < self.MAX_ROTOR_TILT_ANGLE:
-            $RightRotor.rotation.x += self.ROTOR_TILT_SPEED * delta
-        if $RightRotor.rotation.x > self.MAX_ROTOR_TILT_ANGLE:
-            $RightRotor.rotation.x = self.MAX_ROTOR_TILT_ANGLE
+        $RightRotor.set_desired_direction($RightRotor.RotorDirection.BACKWARDS)
     else:
-        if $RightRotor.rotation.x < -self.ROTOR_TILT_SNAP_THRESHOLD:
-            $RightRotor.rotation.x += self.ROTOR_TILT_SPEED * delta
-        elif $RightRotor.rotation.x > self.ROTOR_TILT_SNAP_THRESHOLD:
-            $RightRotor.rotation.x -= self.ROTOR_TILT_SPEED * delta
-        else:
-            $RightRotor.rotation.x = 0
+        $RightRotor.set_desired_direction($RightRotor.RotorDirection.CENTERED)
 
     if Input.is_action_pressed("left_rotor_collective_forwards"):
-        if $LeftRotor.rotation.x > -PI / 4:
-            $LeftRotor.rotation.x -= self.ROTOR_TILT_SPEED * delta
-        if $LeftRotor.rotation.x < -PI / 4:
-            $LeftRotor.rotation.x = -PI / 4
+        $LeftRotor.set_desired_direction($LeftRotor.RotorDirection.FORWARDS)
     elif Input.is_action_pressed("left_rotor_collective_backwards"):
-        if $LeftRotor.rotation.x < PI / 4:
-            $LeftRotor.rotation.x += self.ROTOR_TILT_SPEED * delta
-        if $LeftRotor.rotation.x > PI / 4:
-            $LeftRotor.rotation.x = PI / 4
+        $LeftRotor.set_desired_direction($LeftRotor.RotorDirection.BACKWARDS)
     else:
-        if $LeftRotor.rotation.x < -0.05:
-            $LeftRotor.rotation.x += self.ROTOR_TILT_SPEED * delta
-        elif $LeftRotor.rotation.x > 0.05:
-            $LeftRotor.rotation.x -= self.ROTOR_TILT_SPEED * delta
-        else:
-            $LeftRotor.rotation.x = 0
+        $LeftRotor.set_desired_direction($LeftRotor.RotorDirection.CENTERED)
 
     var right_rotor_tilt: float = $RightRotor.rotation.x / self.MAX_ROTOR_TILT_ANGLE
     var left_rotor_tilt: float = $LeftRotor.rotation.x / self.MAX_ROTOR_TILT_ANGLE
@@ -196,7 +174,7 @@ func _physics_process(delta: float) -> void:
         InputMode.COPLEX_V1:
             self._apply_forces_from_inputs_complex_v1()
         InputMode.COPLEX_V2:
-            self._apply_forces_from_inputs_complex_v2(delta)
+            self._apply_forces_from_inputs_complex_v2()
 
     if self.pid_enabled:
         # if Input.is_anything_pressed():  # TODO: do this once
