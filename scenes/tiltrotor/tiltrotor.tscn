@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://bujeg7y8j3lvf"]
+[gd_scene load_steps=8 format=3 uid="uid://bujeg7y8j3lvf"]
 
 [ext_resource type="Script" uid="uid://1phqxfh237gl" path="res://scenes/tiltrotor/tiltrotor.gd" id="1_ry1n4"]
+[ext_resource type="PackedScene" uid="uid://d1kktxd5bkt3a" path="res://scenes/rotor/rotor.tscn" id="2_r37r5"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pk5h2"]
 size = Vector3(4, 1, 6)
@@ -18,14 +19,6 @@ albedo_color = Color(0, 0.5451893, 0.35680652, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_r37r5"]
 material = SubResource("StandardMaterial3D_hujxm")
 size = Vector3(4, 0.5, 6)
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_ry1n4"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ry1n4"]
-albedo_color = Color(0.7573184, 0.3656332, 0.9999693, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_r37r5"]
-material = SubResource("StandardMaterial3D_ry1n4")
 
 [node name="Tiltrotor" type="RigidBody3D"]
 linear_damp = 1.0
@@ -45,18 +38,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 mesh = SubResource("BoxMesh_r37r5")
 skeleton = NodePath("../..")
 
-[node name="RightRotor" type="CollisionShape3D" parent="."]
+[node name="RightRotor" parent="." instance=ExtResource("2_r37r5")]
 transform = Transform3D(1, 0, 0, 0, 1, -2.9802322e-08, 0, 2.9802322e-08, 1, 2, 0, 0)
-shape = SubResource("CylinderShape3D_ry1n4")
 
-[node name="Mesh" type="MeshInstance3D" parent="RightRotor"]
-mesh = SubResource("CylinderMesh_r37r5")
-skeleton = NodePath("")
-
-[node name="LeftRotor" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 2.9802322e-08, 0, -2.9802322e-08, 1, -2, 0, 0)
-shape = SubResource("CylinderShape3D_ry1n4")
-
-[node name="Mesh" type="MeshInstance3D" parent="LeftRotor"]
-mesh = SubResource("CylinderMesh_r37r5")
-skeleton = NodePath("")
+[node name="LeftRotor" parent="." instance=ExtResource("2_r37r5")]
+transform = Transform3D(1, 0, 0, 0, 1, -2.9802322e-08, 0, 2.9802322e-08, 1, -2, 0, 0)
