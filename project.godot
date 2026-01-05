@@ -13,7 +13,7 @@ config_version=5
 config/name="godot-tiltrotor"
 run/main_scene="uid://cvnj0bdol3rlc"
 config/features=PackedStringArray("4.5", "Mobile")
-config/icon="res://icon.svg"
+config/icon="uid://0thqcnm1fq0q"
 
 [editor]
 
