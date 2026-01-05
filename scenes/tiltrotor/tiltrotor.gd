@@ -55,51 +55,11 @@ func _process(_delta: float) -> void:
 
 
 enum InputMode {
-    COPLEX_V1,
-    COPLEX_V2,
+    COPLEX,
 }
 
 
-var hover_input_mode: InputMode = InputMode.COPLEX_V2
-
-
-func _apply_forces_from_inputs_complex_v1() -> void:
-    var right_position: Vector3 = self.transform.basis.x * 2
-    var left_position: Vector3 = self.transform.basis.x * -2
-
-    var right_force: Vector3 = self.transform.basis.y
-    var left_force: Vector3 = self.transform.basis.y
-
-    if Input.is_action_pressed("right_rotor_forwards"):
-        right_position += self.transform.basis.z
-        right_force -= self.transform.basis.z
-    elif Input.is_action_pressed("right_rotor_backwards"):
-        right_position -= self.transform.basis.z
-        right_force += self.transform.basis.z
-
-    if Input.is_action_pressed("left_rotor_forwards"):
-        left_position += self.transform.basis.z
-        left_force -= self.transform.basis.z
-    elif Input.is_action_pressed("left_rotor_backwards"):
-        left_position -= self.transform.basis.z
-        left_force += self.transform.basis.z
-
-    if Input.is_action_pressed("right_rotor_up"):
-        right_force *= 10
-    elif Input.is_action_pressed("right_rotor_down"):
-        right_force *= -10
-    else:
-        right_force *= 5
-
-    if Input.is_action_pressed("left_rotor_up"):
-        left_force *= 10
-    elif Input.is_action_pressed("left_rotor_down"):
-        left_force *= -10
-    else:
-        left_force *= 5
-
-    self.apply_force(right_force, right_position)
-    self.apply_force(left_force, left_position)
+var hover_input_mode: InputMode = InputMode.COPLEX
 
 
 func apply_basis_relative_force(
@@ -119,7 +79,7 @@ func apply_rotor_force(rotor: Rotor) -> void:
     )
 
 
-func _apply_forces_from_inputs_complex_v2() -> void:
+func _apply_forces_from_complex_inputs() -> void:
     if Input.is_action_pressed("right_rotor_collective_forwards"):
         $RightRotor.set_desired_collective_direction(Rotor.RotorDirection.FORWARDS)
     elif Input.is_action_pressed("right_rotor_collective_backwards"):
@@ -170,15 +130,9 @@ func _physics_process(delta: float) -> void:
     print(self.global_position, self.global_rotation)
 
     match self.hover_input_mode:
-        InputMode.COPLEX_V1:
-            self._apply_forces_from_inputs_complex_v1()
-        InputMode.COPLEX_V2:
-            self._apply_forces_from_inputs_complex_v2()
+        InputMode.COPLEX:
+            self._apply_forces_from_complex_inputs()
 
     if self.pid_enabled:
-        # if Input.is_anything_pressed():  # TODO: do this once
-        #     self.x_angle_pid.reset()
-        #     self.z_angle_pid.reset()
-        # else:
         self.apply_torque(Vector3.RIGHT * self.x_angle_pid.calculate(self.rotation.x, delta))
         self.apply_torque(Vector3.BACK * self.z_angle_pid.calculate(self.rotation.z, delta))
