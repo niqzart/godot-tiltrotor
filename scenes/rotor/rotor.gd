@@ -76,6 +76,13 @@ func _physics_process(delta: float) -> void:
     self._move_towards_desired_power(delta)
 
 
-func get_current_vertical_power() -> float:
+const HORIZONTAL_POWER_COEFFICIENT: float = 0.5
+
+
+func get_current_force() -> Vector3:
     var max_vertical_output = (1 - abs(self.tilt) * 0.4) * MAX_POWER
-    return clamp(self.current_combined_power, -max_vertical_output, max_vertical_output)
+    return Vector3(
+        0,
+        clamp(self.current_combined_power, -max_vertical_output, max_vertical_output),
+        self.current_combined_power * self.tilt * self.HORIZONTAL_POWER_COEFFICIENT,
+    )
