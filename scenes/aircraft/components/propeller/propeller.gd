@@ -27,7 +27,7 @@ func _ready() -> void:
     self._attach_to_parent()
 
 
-@onready var blades = $Blades
+@onready var blades: CollisionShape3D = $Blades
 
 const POWER_UPDATE_SPEED: float = 40
 
@@ -54,6 +54,27 @@ func _apply_thrust() -> void:
     )
 
 
+enum RotationDirection {CLOCKWISE = -1, COUNTER_CLOCKWISE = 1}
+
+const YAW_COEFFICIENT: float = 0.2
+@export var rotation_direction: RotationDirection = RotationDirection.CLOCKWISE
+
+
+func _apply_yaw_force() -> void:
+    var yaw_force_position: Vector3 = (
+        self.rigid_body.basis
+        * Vector3(self.blades.position.x, 0, self.blades.position.z)
+    )
+    self.rigid_body.apply_force(
+        yaw_force_position.rotated(
+            self.rigid_body.basis.y,
+            self.rotation_direction * PI / 2
+        ) * self.YAW_COEFFICIENT * self._current_power,
+        yaw_force_position,
+    )
+
+
 func _physics_process(delta: float) -> void:
     self._update_power_output(delta)
     self._apply_thrust()
+    self._apply_yaw_force()
