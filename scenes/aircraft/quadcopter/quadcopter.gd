@@ -9,12 +9,6 @@ extends RigidBody3D
 ]
 
 
-func _ready() -> void:
-    for propeller in self.propellers:
-        propeller.current_power = 2.5
-        propeller.desired_power = 2.5
-
-
 func _physics_process(_delta: float) -> void:
     print(self.position, self.rotation)
 
