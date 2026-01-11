@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://sb2l46r6bdwo"]
+[gd_scene load_steps=6 format=3 uid="uid://sb2l46r6bdwo"]
 
+[ext_resource type="Script" uid="uid://dyhrekf0cg3wh" path="res://scenes/aircraft/quadcopter/quadcopter.gd" id="1_ee8f0"]
 [ext_resource type="PackedScene" uid="uid://dqrra2qc2dtll" path="res://scenes/aircraft/components/propeller/propeller.tscn" id="2_qc8jv"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gxlkk"]
@@ -14,6 +15,7 @@ size = Vector3(3, 2, 3)
 
 [node name="Quadcopter" type="RigidBody3D"]
 center_of_mass_mode = 1
+script = ExtResource("1_ee8f0")
 
 [node name="Frame" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_gxlkk")

@@ -23,3 +23,12 @@ func _attach_to_parent() -> void:
 
 func _ready() -> void:
     self._attach_to_parent()
+
+
+@onready var blades = $Blades
+
+
+func _physics_process(_delta: float) -> void:
+    var force = self.rigid_body.basis * Vector3(0, 2.5, 0)
+    force *= 2.5 / force.y
+    self.rigid_body.apply_force(force, self.rigid_body.basis * self.blades.position)
