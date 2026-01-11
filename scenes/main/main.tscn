@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cvnj0bdol3rlc"]
 
 [ext_resource type="PackedScene" uid="uid://bv6x4r0uycd41" path="res://scenes/floor/floor.tscn" id="1_hyk8p"]
-[ext_resource type="PackedScene" uid="uid://bujeg7y8j3lvf" path="res://scenes/tiltrotor/tiltrotor.tscn" id="2_iuonh"]
+[ext_resource type="PackedScene" uid="uid://sb2l46r6bdwo" path="res://scenes/aircraft/quadcopter/quadcopter.tscn" id="3_k2fmo"]
 
 [node name="Main" type="Node"]
 
@@ -18,5 +18,5 @@ transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 size = 12.458
 
-[node name="Tiltrotor" parent="." instance=ExtResource("2_iuonh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 5, 0)
+[node name="Quadcopter" parent="." instance=ExtResource("3_k2fmo")]
+transform = Transform3D(-0.50000006, 0.86602545, 0, -0.86602545, -0.50000006, 0, 0, 0, 1, 0, 7, 0)

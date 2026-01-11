@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://sb2l46r6bdwo"]
+
+[ext_resource type="PackedScene" uid="uid://dqrra2qc2dtll" path="res://scenes/aircraft/components/propeller/propeller.tscn" id="2_qc8jv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gxlkk"]
+size = Vector3(3, 2, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qc8jv"]
+albedo_color = Color(0.42365056, 0.42365068, 0.42365035, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_e2qum"]
+material = SubResource("StandardMaterial3D_qc8jv")
+size = Vector3(3, 2, 3)
+
+[node name="Quadcopter" type="RigidBody3D"]
+center_of_mass_mode = 1
+
+[node name="Frame" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_gxlkk")
+
+[node name="FrameMesh" type="MeshInstance3D" parent="Frame"]
+mesh = SubResource("BoxMesh_e2qum")
+skeleton = NodePath("../..")
+
+[node name="PropellerForwardLeft" parent="." instance=ExtResource("2_qc8jv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -3)
+
+[node name="PropellerForwardRight" parent="." instance=ExtResource("2_qc8jv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, -3)
+
+[node name="PropellerBackLeft" parent="." instance=ExtResource("2_qc8jv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 3)
+
+[node name="PropellerBackRight" parent="." instance=ExtResource("2_qc8jv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 3)
