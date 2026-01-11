@@ -1,5 +1,7 @@
 extends RigidBody3D
 
+class_name Propeller
+
 
 var rigid_body: RigidBody3D
 
@@ -27,8 +29,31 @@ func _ready() -> void:
 
 @onready var blades = $Blades
 
+const POWER_UPDATE_SPEED: float = 40
 
-func _physics_process(_delta: float) -> void:
-    var force = self.rigid_body.basis * Vector3(0, 2.5, 0)
-    force *= 2.5 / force.y
-    self.rigid_body.apply_force(force, self.rigid_body.basis * self.blades.position)
+var desired_power: float = 0
+var current_power: float = 0
+
+
+func _update_power_output(delta: float) -> void:
+    var power_delta: float = self.POWER_UPDATE_SPEED * delta
+    if self.current_power < self.desired_power:
+        self.current_power += power_delta
+        if self.current_power > self.desired_power:
+            self.current_power = self.desired_power
+    elif self.current_power > self.desired_power:
+        self.current_power -= power_delta
+        if self.current_power < self.desired_power:
+            self.current_power = self.desired_power
+
+
+func _apply_thrust() -> void:
+    self.rigid_body.apply_force(
+        self.rigid_body.basis * Vector3(0, self.current_power, 0),
+        self.rigid_body.basis * self.blades.position,
+    )
+
+
+func _physics_process(delta: float) -> void:
+    self._update_power_output(delta)
+    self._apply_thrust()
