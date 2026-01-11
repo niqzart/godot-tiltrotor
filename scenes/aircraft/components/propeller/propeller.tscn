@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://dqrra2qc2dtll"]
+
+[ext_resource type="Script" uid="uid://chjcr0udod7d3" path="res://scenes/aircraft/components/propeller/propeller.gd" id="1_kstgw"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xshw0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kstgw"]
+albedo_color = Color(0.52634907, 0.47540963, 0.9123886, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_5fawr"]
+material = SubResource("StandardMaterial3D_kstgw")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_4wn4f"]
+height = 0.1
+radius = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_er0rx"]
+albedo_color = Color(0.234, 0.5251999, 0.65, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_i6ia8"]
+material = SubResource("StandardMaterial3D_er0rx")
+top_radius = 2.0
+bottom_radius = 2.0
+height = 0.1
+
+[node name="Propeller" type="RigidBody3D"]
+script = ExtResource("1_kstgw")
+
+[node name="Shaft" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_xshw0")
+
+[node name="ShaftMesh" type="MeshInstance3D" parent="Shaft"]
+mesh = SubResource("CapsuleMesh_5fawr")
+skeleton = NodePath("../..")
+
+[node name="Blades" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("CylinderShape3D_4wn4f")
+
+[node name="BladesMesh" type="MeshInstance3D" parent="Blades"]
+mesh = SubResource("CylinderMesh_i6ia8")
