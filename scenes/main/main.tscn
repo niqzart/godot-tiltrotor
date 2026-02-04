@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://cvnj0bdol3rlc"]
+[gd_scene load_steps=4 format=3 uid="uid://cvnj0bdol3rlc"]
 
 [ext_resource type="PackedScene" uid="uid://bv6x4r0uycd41" path="res://scenes/floor/floor.tscn" id="1_hyk8p"]
+[ext_resource type="Script" uid="uid://lw4pqhnmvyc3" path="res://scenes/main/main.gd" id="1_k2fmo"]
 [ext_resource type="PackedScene" uid="uid://sb2l46r6bdwo" path="res://scenes/aircraft/quadcopter/quadcopter.tscn" id="3_k2fmo"]
 
 [node name="Main" type="Node"]
+script = ExtResource("1_k2fmo")
 
 [node name="Floor" parent="." instance=ExtResource("1_hyk8p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)

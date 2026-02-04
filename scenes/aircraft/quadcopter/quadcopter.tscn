@@ -15,7 +15,7 @@ size = Vector3(3, 2, 3)
 
 [node name="Quadcopter" type="RigidBody3D"]
 center_of_mass_mode = 1
-linear_damp = 1.0
+linear_damp = 0.5
 angular_damp = 2.0
 script = ExtResource("1_ee8f0")
 
