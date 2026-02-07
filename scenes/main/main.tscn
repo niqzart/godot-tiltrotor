@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cvnj0bdol3rlc"]
+[gd_scene load_steps=4 format=3 uid="uid://cvnj0bdol3rlc"]
 
 [ext_resource type="PackedScene" uid="uid://bv6x4r0uycd41" path="res://scenes/floor/floor.tscn" id="1_hyk8p"]
 [ext_resource type="PackedScene" uid="uid://sb2l46r6bdwo" path="res://scenes/aircraft/quadcopter/quadcopter.tscn" id="3_k2fmo"]
+[ext_resource type="PackedScene" uid="uid://c7j47gvb55lfj" path="res://scenes/cameras/third_person_camera/third_person_camera.tscn" id="3_l3cfh"]
 
 [node name="Main" type="Node"]
 
@@ -12,11 +13,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 shadow_enabled = true
 
-[node name="CameraPivot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 20, 20)
-
-[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
-size = 12.458
+[node name="Camera" parent="." node_paths=PackedStringArray("target_node") instance=ExtResource("3_l3cfh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 22, 20)
+target_node = NodePath("../Quadcopter")
 
 [node name="Quadcopter" parent="." instance=ExtResource("3_k2fmo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0)

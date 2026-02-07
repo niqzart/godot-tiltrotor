@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7j47gvb55lfj"]
+
+[ext_resource type="Script" uid="uid://begv4wukdiqk4" path="res://scenes/cameras/third_person_camera/third_person_camera.gd" id="1_5a5qu"]
+
+[node name="ThirdPersonCamera" type="Node3D"]
+script = ExtResource("1_5a5qu")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+size = 12.458
